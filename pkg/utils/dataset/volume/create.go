@@ -129,6 +129,9 @@ func CreatePersistentVolumeForRuntime(client client.Client,
 			if key == common.AnnotationSkipCheckMountReadyTarget {
 				pv.Spec.PersistentVolumeSource.CSI.VolumeAttributes[common.AnnotationSkipCheckMountReadyTarget] = value
 			}
+			if key == common.NodePublishMethodSymlink {
+				pv.Spec.PersistentVolumeSource.CSI.VolumeAttributes[common.NodePublishMethod] = value
+			}
 		}
 
 		// set from annotations[data.fluid.io/metadataList]
