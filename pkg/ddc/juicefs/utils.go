@@ -386,6 +386,19 @@ func (j *JuiceFSEngine) getFuseCommand() (command string, err error) {
 	return "", nil
 }
 
+func (j *JuiceFSEngine) getFuseImage() (fuseImage string, err error) {
+	ds, err := kubeclient.GetDaemonset(j.Client, j.getFuseName(), j.namespace)
+	if err != nil {
+		return "", err
+	}
+	if ds == nil {
+		j.Log.Info("fuse daemonset not found")
+		return "", nil
+	}
+
+	return ds.Spec.Template.Spec.Containers[0].Image, nil
+}
+
 func (j JuiceFSEngine) updateWorkerScript(command string) error {
 	cm, err := kubeclient.GetConfigmapByName(j.Client, j.getWorkerScriptName(), j.namespace)
 	if err != nil {
