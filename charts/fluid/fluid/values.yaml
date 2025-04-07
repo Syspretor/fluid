@@ -79,6 +79,7 @@ runtime:
   mountRoot: /runtime-mnt
   alluxio:
     replicas: 1
+    env: []
     tolerations:
       - operator: Exists
     resources: ~
@@ -112,6 +113,7 @@ runtime:
     mountConfigStorage: configmap
   jindo:
     replicas: 1
+    env: []
     tolerations:
       - operator: Exists
     resources: ~
@@ -148,6 +150,7 @@ runtime:
       imageTag: v0.9.0
   goosefs:
     replicas: 1
+    env: []
     tolerations:
       - operator: Exists
     resources: ~
@@ -180,6 +183,7 @@ runtime:
       imageTag: v1.2.0
   juicefs:
     replicas: 1
+    env: []
     tolerations:
       - operator: Exists
     resources: ~
@@ -205,6 +209,7 @@ runtime:
       eeimageTag: ee-5.0.21-317356c
   thin:
     replicas: 1
+    env: []
     tolerations:
       - operator: Exists
     resources: ~
@@ -225,6 +230,7 @@ runtime:
       configStorage: configmap
   efc:
     replicas: 1
+    env: []
     tolerations:
       - operator: Exists
     resources: ~
@@ -259,6 +265,7 @@ runtime:
       imageTag: v1.2.2-19dcee9
   vineyard:
     replicas: 1
+    env: []
     portRange: 32000-34000
     tolerations:
       - operator: Exists

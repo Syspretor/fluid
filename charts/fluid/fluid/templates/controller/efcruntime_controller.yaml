@@ -88,6 +88,9 @@ spec:
             {{- end }}
             value: {{ join "," $secretList | quote }}
           {{- end }}
+          {{- if .Values.runtime.efc.env }}
+          {{ toYaml .Values.runtime.efc.env | trim | indent 10  }}
+          {{- end }}
         ports:
         - containerPort: 8080
           name: metrics

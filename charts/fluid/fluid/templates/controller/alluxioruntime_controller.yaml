@@ -90,6 +90,9 @@ spec:
             value: {{ template "fluid.helmDriver" .}}
           - name: ALLUXIO_MOUNT_CONFIG_STORAGE
             value: {{ .Values.runtime.alluxio.mountConfigStorage }}
+          {{- if .Values.runtime.alluxio.env }}
+          {{ toYaml .Values.runtime.alluxio.env | trim | indent 10  }}
+          {{- end }}
         ports:
         - containerPort: 8080
           name: metrics

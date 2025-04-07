@@ -62,6 +62,9 @@ spec:
             value: {{ template "fluid.helmDriver" . }}
           - name: THIN_FUSE_CONFIG_STORAGE
             value: {{ .Values.runtime.thin.fuse.configStorage }}
+          {{- if .Values.runtime.thin.env }}
+          {{ toYaml .Values.runtime.thin.env | trim | indent 10  }}
+          {{- end }}
         ports:
           - containerPort: 8080
             name: metrics

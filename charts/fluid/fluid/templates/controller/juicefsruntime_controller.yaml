@@ -78,6 +78,9 @@ spec:
           {{- end }}
           - name: HELM_DRIVER
             value: {{ template "fluid.helmDriver" . }}
+          {{- if .Values.runtime.juicefs.env }}
+          {{ toYaml .Values.runtime.juicefs.env | trim | indent 10  }}
+          {{- end }}
         ports:
         - containerPort: 8080
           name: metrics
