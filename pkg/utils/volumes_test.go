@@ -465,3 +465,76 @@ func TestFilterVolumesByVolumeMounts(t *testing.T) {
 		})
 	}
 }
+
+func TestIsVolumeNameHasPrefixes(t *testing.T) {
+	// Test case struct
+	type args struct {
+		input    corev1.Volume
+		prefixes []string
+	}
+
+	tests := []struct {
+		name     string
+		args     args
+		expected bool
+	}{
+		{
+			name: "test-match-prefix-1",
+			args: args{
+				input:    corev1.Volume{Name: "config-volume-123"},
+				prefixes: []string{"config", "data", "log"},
+			},
+			expected: true,
+		},
+		{
+			name: "test-match-prefix-2",
+			args: args{
+				input:    corev1.Volume{Name: "log-volume-456"},
+				prefixes: []string{"config", "data", "log"},
+			},
+			expected: true,
+		},
+		{
+			name: "test-do-not-match-prefix",
+			args: args{
+				input:    corev1.Volume{Name: "temp-volume-123"},
+				prefixes: []string{"config", "data", "log"},
+			},
+			expected: false,
+		},
+		{
+			name: "test-nil-prefix",
+			args: args{
+				input:    corev1.Volume{Name: "config-volume"},
+				prefixes: []string{},
+			},
+			expected: false,
+		},
+		{
+			name: "test-empty-volume-name",
+			args: args{
+				input:    corev1.Volume{Name: ""},
+				prefixes: []string{"config", "data"},
+			},
+			expected: false,
+		},
+		{
+			name: "test-empty-prefix",
+			args: args{
+				input:    corev1.Volume{Name: "any-name"},
+				prefixes: []string{""},
+			},
+			expected: true,
+		},
+	}
+
+	// Execute test cases
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := IsVolumeNameHasPrefixes(tt.args.input, tt.args.prefixes)
+			if result != tt.expected {
+				t.Errorf("IsVolumeNameHasPrefixes() = %v, expected %v", result, tt.expected)
+			}
+		})
+	}
+}
