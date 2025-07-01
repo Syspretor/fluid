@@ -25,26 +25,13 @@ rawStr = rawStr[0]
 script = """
 #!/bin/sh
 set -ex
-mount_src=$mountPoint
-mount_target=$targetPath
+MNT_FROM=$mountPoint
+MNT_TO=$targetPath
 
-trap "umount ${mount_target}" SIGTERM
 
-mkdir -p ${mount_target}
-
-mount_src="${mount_src#nfs://}"
-
-if [[ "$mount_src" != *":/"* ]]; then
-    mount_src+=":/"
-fi
-
-mount_opts="vers=3,noacl,nolock,proto=tcp,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport"
-
-access_mode=$(cat $mount_opt_file | jq -r '.["access_mode"]')
-[[ "$access_mode" == "ro" ]] && mount_opts+=",ro"
-
-mount -t nfs -o "$mount_opts" "$mount_src" "$mount_target"
-
+trap "fusermount -u ${MNT_TO}" SIGTERM
+mkdir -p ${MNT_TO}
+fuse-nfs -n nfs://${MNT_FROM} -m ${MNT_TO}
 sleep inf
 """
 
